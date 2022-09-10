@@ -39,8 +39,18 @@ class Take_out_cloths(almari):
 
 
 
-l=20 #value of total_space
-item_size=0
+
+a="SELECT item From almari1 ORDER BY item DESC LIMIT 1"
+mydata=conn.cursor()
+mydata.execute(a)
+myresult = mydata.fetchone()
+if (myresult==None):
+    item_size=0;
+else:
+    item_size=int(myresult[0])
+
+
+l=20-item_size #value of total_space
 
 for x in itertools.count(start=1):
     print("Select Options:")
@@ -75,8 +85,8 @@ for x in itertools.count(start=1):
     elif(operation_select==3):
         mycursor=conn.cursor()
 
-        sql="INSERT INTO almari (space, spece_left, item_size) VALUES(%s, %s, %s)"
-        val=(l, l, item_size)
+        sql="INSERT INTO almari1 (item, space_left) VALUES(%s, %s)"
+        val=(l, item_size)
         mycursor.execute(sql, val)
         conn.commit()
 
